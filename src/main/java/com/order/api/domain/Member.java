@@ -2,6 +2,7 @@ package com.order.api.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.order.api.enums.GenderKind;
 import lombok.*;
 
 import javax.persistence.*;
@@ -16,9 +17,9 @@ public class Member extends CommonEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long userId;
+    private Long memberSeq;
 
-    @Column(length = 20)
+    @Column(length = 30)
     @Setter
     private String name;
 
@@ -29,13 +30,13 @@ public class Member extends CommonEntity{
     @JsonIgnore
     private String password;
 
-    @Column(length = 20)
+    @Column(length = 30)
     private String phoneNumber;
 
     @Column(length = 100)
     private String email;
 
-    @Enumerated(EnumType.STRING)
+    @Column(length = 30)
     private String gender;
 
     @Setter
@@ -43,7 +44,23 @@ public class Member extends CommonEntity{
     private String jwtToken;
 
     @JsonManagedReference
+    @JsonIgnore
     @OneToMany(mappedBy = "member" , fetch = FetchType.LAZY , cascade = CascadeType.REMOVE)
-    private List<Order> orderList = new ArrayList<>();
+    private List<Orders> orderList = new ArrayList<>();
+
+    @Builder
+    public Member (String name , String nickName , String password , String phoneNumber , String email , String gender){
+        this.name = name;
+        this.nickName = nickName;
+        this.password = password;
+        this.phoneNumber = phoneNumber;
+        this.email = email;
+        this.gender = gender;
+    }
+
+
+
+
+
 
 }

@@ -1,7 +1,7 @@
 package com.order.api.security;
 
-import com.todolist.domain.CustomUserDetail;
-import com.todolist.exception.ServiceException;
+import com.order.api.domain.CustomUserDetail;
+import com.order.api.exception.ServiceException;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
@@ -53,7 +53,7 @@ public class JwtTokenProvider {
     // JWT 토큰에서 인증 정보 조회
     public Authentication getAuthentication(String token) {
         CustomUserDetail userDetails = (CustomUserDetail) userDetailsService.loadUserByUsername(this.getId(token));
-        return new UsernamePasswordAuthenticationToken(userDetails.getUsers(), "", userDetails.getAuthorities());
+        return new UsernamePasswordAuthenticationToken("null", "", userDetails.getAuthorities());
     }
 
     // 토큰에서 회원 정보 추출
@@ -64,7 +64,7 @@ public class JwtTokenProvider {
         try{
             id = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().getSubject();
         }catch (Exception e){
-            throw new ServiceException("토큰 정보가 다릅니다.");
+            throw new ServiceException("토큰이 올바르지 않습니다.");
         }
         return id;
     }

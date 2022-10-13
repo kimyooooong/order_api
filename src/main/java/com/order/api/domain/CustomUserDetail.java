@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 public class CustomUserDetail implements UserDetails {
 
     @Getter
-    private final Users users;
+    private final Member member;
 
     private List<String> roles;
 
@@ -27,12 +27,12 @@ public class CustomUserDetail implements UserDetails {
 
     @Override
     public String getPassword() {
-        return users.getPassword();
+        return member.getPassword();
     }
 
     @Override
     public String getUsername() {
-        return users.getId();
+        return member.getName();
     }
 
     @Override

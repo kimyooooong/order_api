@@ -24,7 +24,7 @@ public class MemberService {
     /**
      * 비밀번호 - 단방향 암호화 SHA-256 , 그 외 정보 양방향 암호화 AES-256
      * @param joinForm
-     * @return
+     * @return 회원가입한 멤버.
      * @throws Exception
      */
     @Transactional
@@ -36,23 +36,24 @@ public class MemberService {
         joinFromValidate(joinForm);
 
         return memberRepository.save(
-                Member.builder()
-                        .name(cryptComponent.encrypt(joinForm.getName()))
-                        .nickName(cryptComponent.encrypt(joinForm.getNickname()))
-                        .password(cryptComponent.getPasswordEncoder().encode(joinForm.getPassword()))
-                        .phoneNumber(cryptComponent.encrypt(joinForm.getPhoneNumber()))
-                        .email(cryptComponent.encrypt(joinForm.getEmail()))
-                        .gender(cryptComponent.encrypt(joinForm.getGenderKind().toString()))
-                        .build());
+            Member.builder()
+                    .name(cryptComponent.encrypt(joinForm.getName()))
+                    .nickName(cryptComponent.encrypt(joinForm.getNickname()))
+                    .password(cryptComponent.getPasswordEncoder().encode(joinForm.getPassword()))
+                    .phoneNumber(cryptComponent.encrypt(joinForm.getPhoneNumber()))
+                    .email(cryptComponent.encrypt(joinForm.getEmail()))
+                    .gender(cryptComponent.encrypt(joinForm.getGenderKind().toString()))
+                    .build());
     }
 
+    public Member login(LoginForm loginForm){
 
-    publoc Member login(LoginForm loginForm){
-
+        return null;
     }
 
+    public void logout(){
 
-
+    }
 
     private void joinFromValidate(JoinForm joinForm) {
         ValidationUtils.isNamePattern(joinForm.getName());

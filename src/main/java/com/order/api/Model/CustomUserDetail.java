@@ -1,5 +1,6 @@
-package com.order.api.domain;
+package com.order.api.Model;
 
+import com.order.api.domain.Member;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
@@ -32,7 +33,7 @@ public class CustomUserDetail implements UserDetails {
 
     @Override
     public String getUsername() {
-        return member.getName();
+        return member.getLoginId();
     }
 
     @Override

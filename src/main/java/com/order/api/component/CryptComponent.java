@@ -10,6 +10,7 @@ import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
+import java.util.Random;
 
 @Component
 public class CryptComponent {
@@ -41,6 +42,18 @@ public class CryptComponent {
         byte[] decodedBytes = Base64.getDecoder().decode(cipherText);
         byte[] decrypted = cipher.doFinal(decodedBytes);
         return new String(decrypted, StandardCharsets.UTF_8);
+    }
+
+    public String getOrderKey(int keyLength) {
+        Random rnd=new Random();
+        StringBuffer buf=new StringBuffer();
+        for(int i=1;i<=keyLength;i++) {
+            if(rnd.nextBoolean())
+                buf.append((char)(rnd.nextInt(26)+65));   // 0~25(26개) + 65
+            else
+                buf.append(rnd.nextInt(10));
+        }
+        return buf.toString();
     }
 
 }

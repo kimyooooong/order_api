@@ -1,6 +1,7 @@
 package com.order.api.security;
 
-import com.order.api.domain.CustomUserDetail;
+import com.order.api.Model.CustomUserDetail;
+import com.order.api.domain.Member;
 import com.order.api.exception.ServiceException;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
@@ -51,9 +52,9 @@ public class JwtTokenProvider {
     }
 
     // JWT 토큰에서 인증 정보 조회
-    public Authentication getAuthentication(String token) {
-        CustomUserDetail userDetails = (CustomUserDetail) userDetailsService.loadUserByUsername(this.getId(token));
-        return new UsernamePasswordAuthenticationToken("null", "", userDetails.getAuthorities());
+    public Authentication getAuthentication(String token)   {
+        Member member = (Member) userDetailsService.loadUserByUsername(this.getId(token));
+        return new UsernamePasswordAuthenticationToken(member, "", member.getAuthorities());
     }
 
     // 토큰에서 회원 정보 추출

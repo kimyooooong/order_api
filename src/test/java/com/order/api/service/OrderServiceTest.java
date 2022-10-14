@@ -4,7 +4,6 @@ import com.order.api.component.CryptComponent;
 import com.order.api.domain.Member;
 import com.order.api.enums.GenderKind;
 import com.order.api.form.JoinForm;
-import com.order.api.form.LoginForm;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -19,10 +18,13 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest
 @Transactional
-class MemberServiceTest {
+public class OrderServiceTest {
 
     @Autowired
     private MemberService memberService;
+
+    @Autowired
+    private OrdersService ordersService;
 
     @Autowired
     private CryptComponent cryptComponent;
@@ -32,7 +34,9 @@ class MemberServiceTest {
     private JoinForm joinForm;
 
     @BeforeEach
-    void setUp() {
+    void setUp() throws Exception {
+
+        //회원 가입.
         joinForm = new JoinForm();
         joinForm.setLoginId("rladbdrrr");
         joinForm.setName("김융훈짱짱");
@@ -42,28 +46,15 @@ class MemberServiceTest {
         joinForm.setEmail("kimkim8371@gmail.com");
         joinForm.setPhoneNumber("010-9981-8371");
 
-    }
-
-    @DisplayName("멤버 서비스 테스트 - 회원 가입")
-    @Test
-    void memberServiceJoinTest() throws Exception {
-
-        Member member = memberService.join(joinForm);
-        System.out.println(member);
-        assertThat(member.getName() , is(cryptComponent.encrypt(joinForm.getName())));
-    }
-
-    @DisplayName("멤버 서비스 테스트 - 로그인")
-    @Test
-    void memberServiceLoginTest() throws Exception {
-
-        //회원가입.
         memberService.join(joinForm);
+    }
+    @DisplayName("주문 서비스 테스트 - 주문 등록")
+    @Test
+    void ordersServiceSaveTest() throws Exception {
 
-        LoginForm loginForm = new LoginForm();
-        loginForm.setLoginId("rladbdrrr");
-        loginForm.setPassword("rladbdgns1234R!!!");
+        Member member = memberService.getMember(joinForm.getLoginId());
 
-        Member member = memberService.login(loginForm);
+        ordersService.save(member , "주문 성공");
+
     }
 }

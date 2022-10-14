@@ -23,8 +23,7 @@ public class SecurityConfig {
     public WebSecurityCustomizer configure() {
         return (web) -> web.ignoring().mvcMatchers(
                 "/v3/api-docs/**",
-                "/swagger-ui/**",
-                "/h2-console/**"
+                "/swagger-ui/**"
         );
     }
 

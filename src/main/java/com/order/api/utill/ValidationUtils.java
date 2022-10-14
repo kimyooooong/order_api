@@ -42,6 +42,14 @@ public class ValidationUtils {
             throw new ServiceException("이메일 형식이 올바르지 않습니다");
         }
     }
+    public static void isIdPattern(String id) {
+        String pattern = "^([a-z0-9]){5,30}$"; // 소문자, 숫자
+        Matcher matcher = Pattern.compile(pattern).matcher(id);
+
+        if (!matcher.matches()) {
+            throw new ServiceException("아이디는 5~30자 사이의 영어 소문자 혹은 숫자만의 조합을 사용해주세요.");
+        }
+    }
 
     public static void isNiceNamePattern(String nickname) {
         String pattern = "^([a-z]){5,30}$"; // 소문자만 허용
@@ -56,7 +64,7 @@ public class ValidationUtils {
         Matcher matcher = Pattern.compile(pattern).matcher(name);
 
         if (!matcher.matches()) {
-            throw new ServiceException("이름은 5~20자 사이의 영어 소문자 혹은 숫자만의 조합을 사용해주세요.");
+            throw new ServiceException("이름은 5~20자 사이의 한글,영어 소문자 혹은 숫자만의 조합을 사용해주세요.");
         }
     }
 

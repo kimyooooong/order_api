@@ -9,6 +9,7 @@ import lombok.ToString;
 @Setter
 @ToString
 public class JoinForm {
+    private String loginId;
     private String name;
     private String nickname;
     private String password;

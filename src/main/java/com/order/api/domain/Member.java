@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 @Getter
 @NoArgsConstructor
 @ToString
-@JsonIgnoreProperties({ "roles", "enabled" ,"authorities" , "username" , "accountNonLocked" , "credentialsNonExpired" , "accountNonExpired" , "orderList" })
+@JsonIgnoreProperties({ "roles", "enabled" ,"authorities" , "username" , "accountNonLocked" , "credentialsNonExpired" , "accountNonExpired"})
 public class Member implements UserDetails {
 
     @Id
@@ -60,10 +60,9 @@ public class Member implements UserDetails {
     private String jwtToken;
 
     @JsonManagedReference
-    @JsonIgnore
     @OneToMany(mappedBy = "member" , fetch = FetchType.LAZY , cascade = CascadeType.REMOVE)
+    @Setter
     private List<Orders> orderList = new ArrayList<>();
-
 
     private LocalDateTime createDate;
 

@@ -6,13 +6,20 @@ import com.order.api.exception.ServiceException;
 import com.order.api.form.JoinForm;
 import com.order.api.form.LoginForm;
 import com.order.api.repository.MemberRepository;
+import com.order.api.repository.OrdersRepository;
+import com.order.api.specs.MemberSpecs;
 import com.order.api.utill.ValidationUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -20,6 +27,8 @@ import java.util.Optional;
 public class MemberService {
 
     private final MemberRepository memberRepository;
+
+    private final OrdersRepository ordersRepository;
 
     private final CryptComponent cryptComponent;
 
@@ -60,6 +69,36 @@ public class MemberService {
         }
 
         return member;
+    }
+
+    public List<Member> getAllMember(String name , String email , Pageable pageable) throws Exception{
+
+        //검색조건
+        Specification<Member> spec = null;
+        if(name !=null){
+            spec = MemberSpecs.add("name" , cryptComponent.encrypt(name));
+        }
+
+        if(email !=null){
+            if(spec !=null){
+                spec.and(MemberSpecs.add("email" , cryptComponent.encrypt(email)));
+            } else {
+                spec = MemberSpecs.add("email" , cryptComponent.encrypt(email));
+            }
+        }
+
+        List<Member> members = memberRepository.findAll(spec , pageable).getContent();
+
+        return members.stream().map(c-> {
+            try {
+                Member member = getMember(cryptComponent.decrypt(c.getLoginId()));
+                //가장 최근 1개 주문목록 가져오기.
+                member.setOrderList(ordersRepository.findByMemberOrderByOrderSeqDesc(member, PageRequest.of(0,1)).getContent());
+                return member;
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        }).collect(Collectors.toList());
     }
 
     public Member getMember(String loginId) throws Exception {

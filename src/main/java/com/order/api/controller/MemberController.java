@@ -10,6 +10,10 @@ import com.order.api.service.MemberService;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -64,4 +68,26 @@ public class MemberController {
 
         return ResponseEntity.ok(RestResponse.ok(memberService.getMember(loginId).getOrderList()));
     }
+
+
+    @ApiOperation("여러 회원 조회 - 페이지네이션 , (이름 , 이메일 )검색  , 유저의 마지막 주문정보 포함.")
+    @GetMapping("/all")
+    public ResponseEntity<RestResponse> all(
+            @RequestParam(required = false) String name,
+            @RequestParam(required = false) String email,
+            @RequestParam(value = "page" , defaultValue = "1") Integer page,
+            @RequestParam(value = "size" , defaultValue = "20") Integer size
+    ) throws Exception {
+
+        return ResponseEntity.ok(RestResponse.ok(
+                memberService.getAllMember(name, email ,
+                        PageRequest.of(page-1 , size , Sort.by("memberSeq").descending()
+                        ))));
+    }
+
+
+
+
+
+
 }

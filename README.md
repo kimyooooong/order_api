@@ -28,7 +28,7 @@ DB :
 
 # 서버 접속 및 실행 방법
 
-## 1. 개인 서버로 접속 방법.
+## 1. 개인 서버로 접속 방법
 
 API 테스트 및 문서화 : https://kimyong.kr/backpac/swagger-ui/index.html#
 
@@ -45,9 +45,9 @@ install java-11-openjdk-devel.x86_64
 git clone https://github.com/kimyooooong/order_api.git
 ```
 
-### Sql Schema Import. 
+### Sql Schema Import
 ```
-( 프로젝트 내의 접속 계정은 username : root , password : toor 로 설정되어 있음. )
+( 프로젝트 내의 접속 계정은 username : test , password : test 로 설정되어 있음. )
 mysql -u [DB계정명] -p < [프로젝트폴더]/result/sql_schema.sql
 ```
 
@@ -70,13 +70,13 @@ cd order_api
 ./gradlew build
 ```
 
-### Sql Schema Import. 
+### Sql Schema Import
 ```
 ( 프로젝트 내의 접속 계정은 username : test , password : test 로 설정되어 있음. )
 mysql -u [DB계정명] -p < [프로젝트폴더]/result/sql_schema.sql
 ```
 
-### JAR 실행.
+### JAR 실행
 ```
 cd order_api/build/libs
 java -jar order_api-1.0.jar

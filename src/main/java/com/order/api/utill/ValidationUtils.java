@@ -1,7 +1,6 @@
 package com.order.api.utill;
 
 import com.order.api.exception.ServiceException;
-import com.order.api.form.JoinForm;
 import org.springframework.util.StringUtils;
 
 import javax.mail.internet.AddressException;
@@ -64,16 +63,16 @@ public class ValidationUtils {
         Matcher matcher = Pattern.compile(pattern).matcher(name);
 
         if (!matcher.matches()) {
-            throw new ServiceException("이름은 5~20자 사이의 한글,영어 소문자 혹은 숫자만의 조합을 사용해주세요.");
+            throw new ServiceException("이름은 5~20자 사이의 한글,영어 소문자로만 사용해주세요.");
         }
     }
 
     public static void isPasswordPattern(String password) {
         String passwordPattern = "^(?=.*[0-9])(?=.*[~`!@#$%\\^\\[\\]&*()-])(?=.*[a-z])(?=.*[A-Z]).{10,20}$"; // 영어대소문자 + 특수문자
 
-        Matcher matcher1 = Pattern.compile(passwordPattern).matcher(password);
+        Matcher matcher = Pattern.compile(passwordPattern).matcher(password);
 
-        if (!matcher1.matches() )
-            throw new ServiceException("비밀번호는 10~20자 사이에 영문자,소문자,특수문자,숫자 각 1개이상 조합을 사용해주세요.");
+        if (!matcher.matches())
+            throw new ServiceException("비밀번호는 10~20자 사이에 영문 대문자,소문자,특수문자,숫자 각 1개이상 조합을 사용해주세요.");
     }
 }

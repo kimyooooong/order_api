@@ -8,16 +8,13 @@ import com.order.api.form.LoginForm;
 import com.order.api.security.JwtTokenProvider;
 import com.order.api.service.MemberService;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/members")
@@ -32,6 +29,7 @@ public class MemberController {
     @ApiOperation("회원 가입 - 고유정보인 로그인 아이디를 포함한 기본정보로 가입.")
     @PostMapping("/join")
     public ResponseEntity<RestResponse> join(
+            @ApiParam("비고 : 핸드폰 형식 (-) 포함 시켜야 합니다.")
             @RequestBody JoinForm joinForm
     ) throws Exception {
 

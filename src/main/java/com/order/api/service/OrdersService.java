@@ -19,13 +19,13 @@ public class OrdersService {
 
     private final CryptComponent cryptComponent;
 
-    public Orders save(Member member , String name) throws Exception {
+    private final int ORDER_NAME_LENGTH = 12;
 
-        member = memberService.getOriginalMember("rladbdrrr");
+    public Orders save(Member member , String name) {
 
         return ordersRepository.save(Orders.builder()
                 .member(member)
-                .orderNumber(cryptComponent.getOrderKey(12))
+                .orderNumber(cryptComponent.getOrderKey(ORDER_NAME_LENGTH))
                 .name(name)
                 .build());
     }

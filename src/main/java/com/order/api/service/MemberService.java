@@ -33,7 +33,7 @@ public class MemberService {
     private final CryptComponent cryptComponent;
 
     /**
-     * 비밀번호 - 단방향 암호화 SHA-256 , 그 외 정보 양방향 암호화 AES-256
+     * 회원가입 - 비밀번호 - 단방향 암호화 SHA-256 , 그 외 정보 양방향 암호화 AES-256
      * @param joinForm
      * @return 회원가입한 멤버.
      * @throws Exception
@@ -58,11 +58,15 @@ public class MemberService {
                     .build());
     }
 
+    /**
+     * 로그인 - 아이디 , 패스워드로 로그인.
+     * @param loginForm
+     * @return - 로그인된 멤버 리턴.
+     * @throws Exception
+     */
     public Member login(LoginForm loginForm) throws Exception {
 
         Member member = getMember(loginForm.getLoginId());
-
-
 
         if(!cryptComponent.getPasswordEncoder().matches(loginForm.getPassword() , member.getPassword())){
             throw new ServiceException("패스워드가 올바르지 않습니다.");
@@ -71,14 +75,26 @@ public class MemberService {
         return member;
     }
 
+    /**
+     * 유저 전체 검색.
+     * @param name - 검색조건 : 이름
+     * @param email - 검색조건 : 이메일
+     * @param pageable - 페이지 네이션.
+     * @return - 검색 조건에 맞는 유저 리턴.
+     * @throws Exception
+     */
     public List<Member> getAllMember(String name , String email , Pageable pageable) throws Exception{
 
         //검색조건
         Specification<Member> spec = null;
+        
+        //이름
         if(name !=null){
             spec = MemberSpecs.add("name" , cryptComponent.encrypt(name));
         }
 
+        
+        //이메일
         if(email !=null){
             if(spec !=null){
                 spec.and(MemberSpecs.add("email" , cryptComponent.encrypt(email)));
@@ -101,6 +117,12 @@ public class MemberService {
         }).collect(Collectors.toList());
     }
 
+    /**
+     * 복호화된 유저 정보.
+     * @param loginId - 회원가입 시 아이디
+     * @return
+     * @throws Exception
+     */
     public Member getMember(String loginId) throws Exception {
 
         Member member = memberRepository.findByLoginId(cryptComponent.encrypt(loginId)).orElseThrow(()-> new ServiceException("아이디가 존재 하지 않습니다."));
@@ -119,13 +141,11 @@ public class MemberService {
         return memberRepository.findByLoginId(cryptComponent.encrypt(loginId)).orElseThrow(()-> new ServiceException("아이디가 존재 하지 않습니다."));
     }
 
-    public void logout(){
-
-    }
-
-
-
-
+    /**
+     * 회원 가입 발리데이션 체크.
+     * @param joinForm
+     * @throws Exception
+     */
     private void joinFromValidate(JoinForm joinForm) throws Exception {
 
         ValidationUtils.isIdPattern(joinForm.getLoginId());

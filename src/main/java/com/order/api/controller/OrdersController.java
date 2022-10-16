@@ -28,14 +28,9 @@ public class OrdersController {
             @RequestHeader("Authentication") String Header,
             @RequestBody OrderSaveForm orderSaveForm
     ) throws Exception {
-
         Member member = (Member) jwtTokenProvider.getAuthentication(Header).getPrincipal();
-
         ordersService.save(member , orderSaveForm.getName());
         return ResponseEntity.ok(RestResponse.ok());
     }
-    
-    
-    
     
 }

@@ -29,7 +29,7 @@ public class MemberController {
     @ApiOperation("회원 가입 - 고유정보인 로그인 아이디를 포함한 기본정보로 가입.")
     @PostMapping("/join")
     public ResponseEntity<RestResponse> join(
-            @ApiParam("비고 : 핸드폰 형식 (-) 포함 시켜야 합니다.")
+            @ApiParam("비고 : 핸드폰 형식 (-) 포함 시켜야 합")
             @RequestBody JoinForm joinForm
     ) throws Exception {
 
@@ -68,7 +68,7 @@ public class MemberController {
     }
 
 
-    @ApiOperation("여러 회원 조회 - 페이지네이션 , (이름 , 이메일 )검색  , 유저의 마지막 주문정보 포함.")
+    @ApiOperation("여러 회원 조회 - 페이지네이션 , ( 이름 , 이메일 ) 검색  , 멤버의 마지막 주문정보 포함.")
     @GetMapping("/all")
     public ResponseEntity<RestResponse> all(
             @RequestParam(required = false) String name,

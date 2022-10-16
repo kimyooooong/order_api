@@ -33,32 +33,6 @@ public class MemberService {
     private final CryptComponent cryptComponent;
 
     /**
-     * 회원가입 - 비밀번호 - 단방향 암호화 SHA-256 , 그 외 정보 양방향 암호화 AES-256
-     * @param joinForm
-     * @return 회원가입한 멤버.
-     * @throws Exception
-     */
-    @Transactional
-    public synchronized Member join(JoinForm joinForm) throws Exception {
-
-        log.info("joinForm : {}" , joinForm);
-
-        //값 발리데이션 체크.
-        joinFromValidate(joinForm);
-
-        return memberRepository.save(
-            Member.builder()
-                    .loginId(cryptComponent.encrypt(joinForm.getLoginId()))
-                    .name(cryptComponent.encrypt(joinForm.getName()))
-                    .nickName(cryptComponent.encrypt(joinForm.getNickname()))
-                    .password(cryptComponent.getPasswordEncoder().encode(joinForm.getPassword()))
-                    .phoneNumber(cryptComponent.encrypt(joinForm.getPhoneNumber()))
-                    .email(cryptComponent.encrypt(joinForm.getEmail()))
-                    .gender(cryptComponent.encrypt(joinForm.getGenderKind().toString()))
-                    .build());
-    }
-
-    /**
      * 로그인 - 아이디 , 패스워드로 로그인.
      * @param loginForm
      * @return - 로그인된 멤버 리턴.
@@ -73,6 +47,32 @@ public class MemberService {
         }
 
         return member;
+    }
+
+    /**
+     * 회원가입 - 비밀번호 - 단방향 암호화 SHA-256 , 그 외 정보 양방향 암호화 AES-256
+     * @param joinForm
+     * @return 회원가입한 멤버.
+     * @throws Exception
+     */
+    @Transactional
+    public synchronized Member join(JoinForm joinForm) throws Exception {
+
+        log.info("joinForm : {}" , joinForm);
+
+        //값 발리데이션 체크.
+        joinFromValidate(joinForm);
+
+        return memberRepository.save(
+                Member.builder()
+                        .loginId(cryptComponent.encrypt(joinForm.getLoginId()))
+                        .name(cryptComponent.encrypt(joinForm.getName()))
+                        .nickName(cryptComponent.encrypt(joinForm.getNickname()))
+                        .password(cryptComponent.getPasswordEncoder().encode(joinForm.getPassword()))
+                        .phoneNumber(cryptComponent.encrypt(joinForm.getPhoneNumber()))
+                        .email(cryptComponent.encrypt(joinForm.getEmail()))
+                        .gender(cryptComponent.encrypt(joinForm.getGenderKind().toString()))
+                        .build());
     }
 
     /**
@@ -93,7 +93,6 @@ public class MemberService {
             spec = MemberSpecs.add("name" , cryptComponent.encrypt(name));
         }
 
-        
         //이메일
         if(email !=null){
             if(spec !=null){
@@ -146,7 +145,7 @@ public class MemberService {
      * @param joinForm
      * @throws Exception
      */
-    private void joinFromValidate(JoinForm joinForm) throws Exception {
+    public void joinFromValidate(JoinForm joinForm) throws Exception {
 
         ValidationUtils.isIdPattern(joinForm.getLoginId());
         ValidationUtils.isNamePattern(joinForm.getName());

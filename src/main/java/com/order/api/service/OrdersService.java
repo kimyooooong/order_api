@@ -15,8 +15,6 @@ public class OrdersService {
 
     private final OrdersRepository ordersRepository;
 
-    private final MemberService memberService;
-
     private final CryptComponent cryptComponent;
 
     private final int ORDER_NAME_LENGTH = 12;

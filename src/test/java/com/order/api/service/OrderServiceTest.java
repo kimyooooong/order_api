@@ -1,7 +1,7 @@
 package com.order.api.service;
 
-import com.order.api.component.CryptComponent;
 import com.order.api.domain.Member;
+import com.order.api.domain.Orders;
 import com.order.api.enums.GenderKind;
 import com.order.api.form.JoinForm;
 import org.junit.jupiter.api.BeforeEach;
@@ -14,7 +14,6 @@ import javax.transaction.Transactional;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest
 @Transactional
@@ -25,11 +24,6 @@ public class OrderServiceTest {
 
     @Autowired
     private OrdersService ordersService;
-
-    @Autowired
-    private CryptComponent cryptComponent;
-
-    private Member member;
 
     private JoinForm joinForm;
 
@@ -53,8 +47,9 @@ public class OrderServiceTest {
     void ordersServiceSaveTest() throws Exception {
 
         Member member = memberService.getMember(joinForm.getLoginId());
+        Orders orders = ordersService.save(member , "주문 성공");
 
-        ordersService.save(member , "주문 성공");
 
+        assertThat("주문 성공", is((orders.getName())));
     }
 }

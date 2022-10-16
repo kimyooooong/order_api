@@ -38,7 +38,7 @@ public class ValidationUtils {
 
     public static void isEmailPattern(String email) {
         if (!ValidationUtils.isValidEmailAddress(email)) {
-            throw new ServiceException("이메일 형식이 올바르지 않습니다");
+            throw new ServiceException("이메일 형식이 올바르지 않습니다.");
         }
     }
     public static void isIdPattern(String id) {

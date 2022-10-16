@@ -14,8 +14,8 @@ DB :
 - 기본 포트 7000 , 내장 톰캣사용.
 - Properties에 설정 된 Mysql 접속 정보
   - url=jdbc:mysql://127.0.0.1:3306/test?serverTimezone=UTC&useLegacyDatetimeCode=false
-  - username=root
-  - password=toor
+  - username=test
+  - password=test
 - JDBC TIME ZONE 설정 : UTC
 
 코드 구조 및 서비스 흐름.
@@ -30,8 +30,8 @@ DB :
 
 ## 1. 개인 서버로 접속 방법.
 
-API 테스트 및 문서화 : https://kimyong.kr/moais/swagger-ui/index.html#/ <br>
-H2 DB 접속 - https://kimyong.kr/moais/h2-console
+API 테스트 및 문서화 : https://kimyong.kr/backpac/swagger-ui/index.html#/ <br>
+H2 DB 접속 - https://kimyong.kr/backpac/h2-console
 
 
 ## 2. Jar 파일로 서버 실행 방법. ( 스키마 IMPORT 필요 )
@@ -73,7 +73,7 @@ cd order_api
 
 ### Sql Schema Import. 
 ```
-( 프로젝트 내의 접속 계정은 username : root , password : toor 로 설정되어 있음. )
+( 프로젝트 내의 접속 계정은 username : test , password : test 로 설정되어 있음. )
 mysql -u [DB계정명] -p < [프로젝트폴더]/result/sql_schema.sql
 ```
 

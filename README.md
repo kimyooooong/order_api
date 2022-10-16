@@ -30,8 +30,7 @@ DB :
 
 ## 1. 개인 서버로 접속 방법.
 
-API 테스트 및 문서화 : https://kimyong.kr/backpac/swagger-ui/index.html#/ <br>
-H2 DB 접속 - https://kimyong.kr/backpac/h2-console
+API 테스트 및 문서화 : https://kimyong.kr/backpac/swagger-ui/index.html#
 
 
 ## 2. Jar 파일로 서버 실행 방법. ( 스키마 IMPORT 필요 )

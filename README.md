@@ -8,7 +8,7 @@ JAVA / SPRING BOOT / JPA 기반 유저 관리 및 주문 관리 / 사용 API 구
 * Java 11 / Spring Boot 2.7.4
 
 DB : 
-* H2 ( Mysql 8.0.31)
+* Mysql 8.0.31
 
 기타 :
 - 기본 포트 7000 , 내장 톰캣사용.
